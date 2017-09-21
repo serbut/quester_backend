@@ -11,21 +11,29 @@ public class UserProfile {
     private String email;
     @JsonProperty("password")
     private String password;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lastName")
+    private String lastName;
     private int rating;
 
     @SuppressWarnings("unused")
     private UserProfile() {
     }
 
-    public UserProfile(String email, String password) {
+    public UserProfile(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public UserProfile(int id, String email, String password, int rating) {
+    public UserProfile(int id, String email, String password, String firstName, String lastName, int rating) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.rating = rating;
     }
 
@@ -57,5 +65,21 @@ public class UserProfile {
     @SuppressWarnings("unused")
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
