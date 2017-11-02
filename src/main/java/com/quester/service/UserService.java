@@ -12,6 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import static com.quester.service.Mappers.USER_PROFILE_ROW_MAPPER;
+import static com.quester.service.Mappers.USER_TOKEN_ROW_MAPPER;
+
 /**
  * Created by sergeybutorin on 21/09/2017.
  */
@@ -25,10 +28,10 @@ public class UserService {
         this.template = template;
     }
 
-    public @Nullable UserProfile addUser(@NotNull String email, @NotNull String password, @NotNull String firstName, @NotNull String lastName) {
+    public @Nullable UserProfile addUser(@NotNull String email, @NotNull String password, @NotNull String firstName, @NotNull String lastName, @NotNull String token) {
         try {
-            final String query = "INSERT INTO users (email, password, firstname, lastname) VALUES (?, ?, ?, ?)";
-            template.update(query, email, password, firstName, lastName);
+            final String query = "INSERT INTO users (email, password, firstname, lastname, token) VALUES (?, ?, ?, ?, ?)";
+            template.update(query, email, password, firstName, lastName, token);
         } catch (DuplicateKeyException e) {
             LOGGER.info("User with email {} already exists.", email);
             return null;
@@ -51,6 +54,18 @@ public class UserService {
         }
     }
 
+    public @Nullable String getUserToken(String email) {
+        try {
+            return template.queryForObject("SELECT token FROM users WHERE email = ?", USER_TOKEN_ROW_MAPPER, email);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.info("User with email {} not found.", email);
+            return null;
+        } catch (DataAccessException e) {
+            LOGGER.info(e.getLocalizedMessage());
+            return null;
+        }
+    }
+
     public @Nullable UserProfile getUserById(Long id) {
         try {
             return template.queryForObject("SELECT * FROM users WHERE id = ?", USER_PROFILE_ROW_MAPPER, id);
@@ -62,14 +77,4 @@ public class UserService {
             return null;
         }
     }
-
-    private static final RowMapper<UserProfile> USER_PROFILE_ROW_MAPPER = (rs, rowNum) -> {
-        final int id = rs.getInt("id");
-        final String email = rs.getString("email");
-        final String password = rs.getString("password");
-        final String fistName = rs.getString("firstname");
-        final String lastName = rs.getString("lastname");
-        final int rating = rs.getInt("rating");
-        return new UserProfile(id, email, password, fistName, lastName, rating);
-    };
 }

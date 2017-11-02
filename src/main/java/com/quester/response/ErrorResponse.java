@@ -8,7 +8,7 @@ public class ErrorResponse {
     public static final String NOT_AUTHORIZED = "User not authorized";
     public static final String INCORRECT_DATA = "Incorrect login/password";
     public static final String EMAIL_ALREADY_EXISTS = "User with such email already exists";
-    public static final String SESSION_BUSY = "User in this session already logged in";
+    public static final String QUEST_CREATION_ERROR = "Error creating quest"; // TODO: too broad
 
     private final String error;
 

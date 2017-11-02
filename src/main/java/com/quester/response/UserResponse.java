@@ -10,14 +10,22 @@ public class UserResponse {
     private final String email;
     private final String firstName;
     private final String lastName;
-    private final int rating;
+    private final String token;
 
     public UserResponse(UserProfile user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
-        this.rating = user.getRating();
+        this.token = null;
+    }
+
+    public UserResponse(UserProfile user, String token) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.token = token;
     }
 
     @SuppressWarnings("unused")
@@ -30,16 +38,15 @@ public class UserResponse {
         return email;
     }
 
-    @SuppressWarnings("unused")
-    public int getRating() {
-        return rating;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getToken() {
+        return token;
     }
 }
