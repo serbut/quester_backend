@@ -1,14 +1,10 @@
 package com.quester.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by sergeybutorin on 02/11/2017.
  */
 public class Point {
     private int id;
-    @JsonProperty("order")
-    private short orderNumber;
     private double x;
     private double y;
 
@@ -16,9 +12,8 @@ public class Point {
     private Point() {
     }
 
-    public Point(int id, short orderNumber, double x, double y) {
+    public Point(int id, double x, double y) {
         this.id = id;
-        this.orderNumber = orderNumber;
         this.x = x;
         this.y = y;
     }
@@ -29,14 +24,6 @@ public class Point {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public short getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(short orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public double getX() {

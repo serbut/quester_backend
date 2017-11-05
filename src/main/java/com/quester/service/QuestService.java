@@ -40,12 +40,13 @@ public class QuestService {
             final String queryQuest = "INSERT INTO quest (user_id, title) VALUES (" +
                     "(SELECT id FROM users WHERE token = ?), ?) RETURNING id";
             questId = template.queryForObject(queryQuest, ID_MAPPER, userToken, title);
+            short orderNumber = 0;
             for (Point p : points) {
                 p.setId(template.queryForObject("SELECT nextval(pg_get_serial_sequence('point', 'id'))", NEXT_ID_MAPPER));
 
                 pst.setInt(1, p.getId());
                 pst.setInt(2, questId);
-                pst.setShort(3, p.getOrderNumber());
+                pst.setShort(3, ++orderNumber);
                 pst.setDouble(4, p.getX());
                 pst.setDouble(5, p.getY());
                 pst.addBatch();
