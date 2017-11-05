@@ -3,7 +3,7 @@ package com.quester.controller;
 import com.quester.Constants;
 import com.quester.model.UserProfile;
 import com.quester.response.ErrorResponse;
-import com.quester.response.TokenResponse;
+import com.quester.response.UserResponse;
 import com.quester.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(ErrorResponse.EMAIL_ALREADY_EXISTS));
         }
         LOGGER.info("User with email {} registered", email);
-        return ResponseEntity.ok(new TokenResponse(token));
+        return ResponseEntity.ok(new UserResponse(newUser, token));
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
@@ -79,7 +79,7 @@ public class UserController {
         }
 
         LOGGER.info("User {} logged in", email);
-        return ResponseEntity.ok(new TokenResponse(token));
+        return ResponseEntity.ok(new UserResponse(user, token));
     }
 
     static String getToken(int chars) {
