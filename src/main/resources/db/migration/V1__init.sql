@@ -10,7 +10,7 @@ CREATE UNIQUE INDEX idx_email ON users (email);
 
 CREATE TABLE quest (
   id SERIAL NOT NULL PRIMARY KEY,
-  version SERIAL NOT NULL,
+  version INT NOT NULL DEFAULT 0,
   user_id INT REFERENCES users(id) NOT NULL,
   title VARCHAR(100) NOT NULL
 );
@@ -18,7 +18,6 @@ CREATE TABLE quest (
 CREATE TABLE point (
   id SERIAL NOT NULL PRIMARY KEY,
   quest_id INT REFERENCES quest(id) NOT NULL,
-  order_number INT NOT NULL,
   x REAL NOT NULL,
   y REAL NOT NULL
 );

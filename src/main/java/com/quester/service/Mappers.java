@@ -1,5 +1,6 @@
 package com.quester.service;
 
+import com.quester.model.Point;
 import com.quester.model.Quest;
 import com.quester.model.QuestBase;
 import com.quester.model.UserProfile;
@@ -32,10 +33,17 @@ public class Mappers {
         final int userId = rs.getInt("user_id");
         return new Quest(id, version, title, userId);
     };
-    
+
     static final RowMapper<QuestBase> QUESTS_LIST_ROW_MAPPER = (rs, rowNum) -> {
         final int id = rs.getInt("id");
         final int version = rs.getInt("version");
         return new QuestBase(id, version);
+    };
+
+    static final RowMapper<Point> POINT_ROW_MAPPER = (rs, rowNum) -> {
+        final int id = rs.getInt("id");
+        final double x = rs.getDouble("x");
+        final double y = rs.getDouble("y");
+        return new Point(id, x, y);
     };
 }

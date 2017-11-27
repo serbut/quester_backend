@@ -33,7 +33,7 @@ public class QuestService {
     }
 
     public @Nullable Quest addQuest(@NotNull String title, @NotNull String userToken, @NotNull List<Point> points) {
-        final String queryPoint = "INSERT INTO point (id, quest_id, order_number, x, \"y\") VALUES (?, ?, ?, ?, ?)";
+        final String queryPoint = "INSERT INTO point (id, quest_id, x, \"y\") VALUES (?, ?, ?, ?)";
         final int questId;
 
         try (Connection conn = template.getDataSource().getConnection();
@@ -41,15 +41,13 @@ public class QuestService {
             final String queryQuest = "INSERT INTO quest (user_id, title) VALUES (" +
                     "(SELECT id FROM users WHERE token = ?), ?) RETURNING id";
             questId = template.queryForObject(queryQuest, ID_MAPPER, userToken, title);
-            short orderNumber = 0;
             for (Point p : points) {
                 p.setId(template.queryForObject("SELECT nextval(pg_get_serial_sequence('point', 'id'))", NEXT_ID_MAPPER));
 
                 pst.setInt(1, p.getId());
                 pst.setInt(2, questId);
-                pst.setShort(3, ++orderNumber);
-                pst.setDouble(4, p.getX());
-                pst.setDouble(5, p.getY());
+                pst.setDouble(3, p.getX());
+                pst.setDouble(4, p.getY());
                 pst.addBatch();
                 LOGGER.info("Point with id {} in ({}; {}) created", p.getId(), p.getX(), p.getY());
             }
@@ -64,7 +62,9 @@ public class QuestService {
 
     public @Nullable Quest getQuestById(int id) {
         try {
-            return template.queryForObject("SELECT * FROM quest WHERE id = ?", QUEST_ROW_MAPPER, id);
+            final Quest quest = template.queryForObject("SELECT * FROM quest WHERE id = ?", QUEST_ROW_MAPPER, id);
+            quest.setPoints(getPoints(quest.getId()));
+            return quest;
         } catch (EmptyResultDataAccessException e) {
             LOGGER.info("Quest with id = {} not found.", id);
             return null;
@@ -84,5 +84,9 @@ public class QuestService {
             LOGGER.info(e.getLocalizedMessage());
             return null;
         }
+    }
+
+    private @NotNull List<Point> getPoints(int questId) {
+        return template.query("SELECT * FROM point WHERE quest_id = ?", POINT_ROW_MAPPER, questId);
     }
 }
