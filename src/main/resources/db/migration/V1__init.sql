@@ -10,6 +10,7 @@ CREATE UNIQUE INDEX idx_email ON users (email);
 
 CREATE TABLE quest (
   id SERIAL NOT NULL PRIMARY KEY,
+  version SERIAL NOT NULL,
   user_id INT REFERENCES users(id) NOT NULL,
   title VARCHAR(100) NOT NULL
 );

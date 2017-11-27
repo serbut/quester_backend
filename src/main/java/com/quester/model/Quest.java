@@ -8,34 +8,35 @@ import java.util.List;
 /**
  * Created by sergeybutorin on 02/11/2017.
  */
-public class Quest {
+public class Quest extends QuestBase {
     private int id;
+    private int version;
     private String title;
     private int userId;
     private List<Point> points;
     @JsonProperty("token")
     private String userToken;
 
-    @SuppressWarnings("unused")
-    private Quest() {
-    }
+//    @SuppressWarnings("unused")
+//    private Quest() {
+//    }
 
-    public Quest(int id, String title, int userId) {
-        this.id = id;
+    public Quest(int id, int version, String title, int userId) {
+        super(id, version);
         this.title = title;
         this.userId = userId;
         this.points = null;
     }
 
-    public Quest(int id, String title, String userToken) {
-        this.id = id;
+    public Quest(int id, int version, String title, String userToken) {
+        super(id, version);
         this.title = title;
         this.userToken = userToken;
         this.points = null;
     }
 
-    public Quest(int id, String title, int userId, @NotNull List<Point> points) {
-        this.id = id;
+    public Quest(int id, int version, String title, int userId, @NotNull List<Point> points) {
+        super(id, version);
         this.title = title;
         this.userId = userId;
         this.points = points;
@@ -79,5 +80,13 @@ public class Quest {
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

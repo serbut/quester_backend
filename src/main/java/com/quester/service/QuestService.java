@@ -2,6 +2,7 @@ package com.quester.service;
 
 import com.quester.model.Point;
 import com.quester.model.Quest;
+import com.quester.model.QuestBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -66,6 +67,18 @@ public class QuestService {
             return template.queryForObject("SELECT * FROM quest WHERE id = ?", QUEST_ROW_MAPPER, id);
         } catch (EmptyResultDataAccessException e) {
             LOGGER.info("Quest with id = {} not found.", id);
+            return null;
+        } catch (DataAccessException e) {
+            LOGGER.info(e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    public @Nullable List<QuestBase> getQuests() {
+        try {
+            return template.query("SELECT id, version FROM quest", QUESTS_LIST_ROW_MAPPER);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.info("Quests not found.");
             return null;
         } catch (DataAccessException e) {
             LOGGER.info(e.getLocalizedMessage());

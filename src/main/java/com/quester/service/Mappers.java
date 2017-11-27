@@ -1,6 +1,7 @@
 package com.quester.service;
 
 import com.quester.model.Quest;
+import com.quester.model.QuestBase;
 import com.quester.model.UserProfile;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -26,8 +27,15 @@ public class Mappers {
 
     static final RowMapper<Quest> QUEST_ROW_MAPPER = (rs, rowNum) -> {
         final int id = rs.getInt("id");
+        final int version = rs.getInt("version");
         final String title = rs.getString("title");
         final int userId = rs.getInt("user_id");
-        return new Quest(id, title, userId);
+        return new Quest(id, version, title, userId);
+    };
+    
+    static final RowMapper<QuestBase> QUESTS_LIST_ROW_MAPPER = (rs, rowNum) -> {
+        final int id = rs.getInt("id");
+        final int version = rs.getInt("version");
+        return new QuestBase(id, version);
     };
 }

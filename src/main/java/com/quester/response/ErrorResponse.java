@@ -9,6 +9,7 @@ public class ErrorResponse {
     public static final String INCORRECT_DATA = "Incorrect login/password";
     public static final String EMAIL_ALREADY_EXISTS = "User with such email already exists";
     public static final String QUEST_CREATION_ERROR = "Error creating quest"; // TODO: too broad
+    public static final String QUEST_NOT_FOUND = "Quest not found";
 
     private final String error;
 
