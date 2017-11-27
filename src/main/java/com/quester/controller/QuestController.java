@@ -31,7 +31,7 @@ public class QuestController {
     }
 
     @RequestMapping(path = "/new", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    public ResponseEntity addQuest(@RequestHeader("User Token") String userToken,
+    public ResponseEntity addQuest(@RequestHeader("User-Token") String userToken,
                                  @RequestBody Quest body) {
         final String title = body.getTitle();
         final List<Point> points = body.getPoints();
