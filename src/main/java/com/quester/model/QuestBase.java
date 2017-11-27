@@ -7,6 +7,10 @@ public class QuestBase {
     private int id;
     private int version;
 
+    @SuppressWarnings("unused")
+    public QuestBase() {
+    }
+
     public QuestBase(int id, int version) {
         this.id = id;
         this.version = version;

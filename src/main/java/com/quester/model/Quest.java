@@ -17,9 +17,9 @@ public class Quest extends QuestBase {
     @JsonProperty("token")
     private String userToken;
 
-//    @SuppressWarnings("unused")
-//    private Quest() {
-//    }
+    @SuppressWarnings("unused")
+    private Quest() {
+    }
 
     public Quest(int id, int version, String title, int userId) {
         super(id, version);
