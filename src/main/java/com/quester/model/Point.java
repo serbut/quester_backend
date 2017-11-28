@@ -5,17 +5,17 @@ package com.quester.model;
  */
 public class Point {
     private int id;
-    private double x;
-    private double y;
+    private double latitude;
+    private double longitude;
 
     @SuppressWarnings("unused")
     private Point() {
     }
 
-    public Point(int id, double x, double y) {
+    public Point(int id, double latitude, double longitude) {
         this.id = id;
-        this.x = x;
-        this.y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getId() {
@@ -26,19 +26,19 @@ public class Point {
         this.id = id;
     }
 
-    public double getX() {
-        return x;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getY() {
-        return y;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
