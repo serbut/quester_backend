@@ -46,10 +46,10 @@ public class QuestService {
 
                 pst.setInt(1, p.getId());
                 pst.setInt(2, questId);
-                pst.setDouble(3, p.getX());
-                pst.setDouble(4, p.getY());
+                pst.setDouble(3, p.getLatitude());
+                pst.setDouble(4, p.getLongitude());
                 pst.addBatch();
-                LOGGER.info("Point with id {} in ({}; {}) created", p.getId(), p.getX(), p.getY());
+                LOGGER.info("Point with id {} in ({}; {}) created", p.getId(), p.getLatitude(), p.getLongitude());
             }
 
             pst.executeBatch();
