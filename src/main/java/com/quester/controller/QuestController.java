@@ -57,7 +57,7 @@ public class QuestController {
         return ResponseEntity.ok(quests);
     }
 
-    @RequestMapping(path = "/{id}/details", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    @RequestMapping(path = "/{id}/details", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity getQuestDetails(@PathVariable(value="id") int questId) {
         final Quest quest = questService.getQuestById(questId);
 
