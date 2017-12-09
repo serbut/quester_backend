@@ -32,15 +32,16 @@ public class QuestService {
         this.template = template;
     }
 
-    public @Nullable Quest addQuest(@NotNull String title, @NotNull String userToken, @NotNull List<Point> points) {
+    public @Nullable Quest addQuest(@NotNull String title, @NotNull String description,
+                                    @NotNull String userToken, @NotNull List<Point> points) {
         final String queryPoint = "INSERT INTO point (id, quest_id, x, \"y\") VALUES (?, ?, ?, ?)";
         final int questId;
 
         try (Connection conn = template.getDataSource().getConnection();
              PreparedStatement pst = conn.prepareStatement(queryPoint, Statement.NO_GENERATED_KEYS)) {
-            final String queryQuest = "INSERT INTO quest (user_id, title) VALUES (" +
-                    "(SELECT id FROM users WHERE token = ?), ?) RETURNING id";
-            questId = template.queryForObject(queryQuest, ID_MAPPER, userToken, title);
+            final String queryQuest = "INSERT INTO quest (user_id, title, description) VALUES (" +
+                    "(SELECT id FROM users WHERE token = ?), ?, ?) RETURNING id";
+            questId = template.queryForObject(queryQuest, ID_MAPPER, userToken, title, description);
             for (Point p : points) {
                 p.setId(template.queryForObject("SELECT nextval(pg_get_serial_sequence('point', 'id'))", NEXT_ID_MAPPER));
 

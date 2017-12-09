@@ -34,6 +34,7 @@ public class QuestController {
     public ResponseEntity addQuest(@RequestHeader("User-Token") String userToken,
                                  @RequestBody Quest body) {
         final String title = body.getTitle();
+        final String description = body.getDescription();
         final List<Point> points = body.getPoints();
 
         if (StringUtils.isEmpty(title)
@@ -42,7 +43,7 @@ public class QuestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.WRONG_PARAMETERS);
         }
 
-        final Quest newQuest = questService.addQuest(title, userToken, points);
+        final Quest newQuest = questService.addQuest(title, description, userToken, points);
         if (newQuest == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ErrorResponse.QUEST_CREATION_ERROR)); // TODO: too broad
         }

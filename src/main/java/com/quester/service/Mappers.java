@@ -30,8 +30,9 @@ public class Mappers {
         final int id = rs.getInt("id");
         final int version = rs.getInt("version");
         final String title = rs.getString("title");
+        final String description = rs.getString("description");
         final int userId = rs.getInt("user_id");
-        return new Quest(id, version, title, userId);
+        return new Quest(id, version, title, description, userId);
     };
 
     static final RowMapper<QuestBase> QUESTS_LIST_ROW_MAPPER = (rs, rowNum) -> {

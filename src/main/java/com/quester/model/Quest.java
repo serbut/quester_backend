@@ -13,6 +13,7 @@ public class Quest {
     private int id;
     private int version;
     private String title;
+    private String description;
     private int userId;
     private List<Point> points;
 
@@ -20,18 +21,20 @@ public class Quest {
     private Quest() {
     }
 
-    public Quest(int id, int version, String title, int userId) {
+    public Quest(int id, int version, String title, String description, int userId) {
         this.id = id;
         this.version = version;
         this.title = title;
+        this.description = description;
         this.userId = userId;
         this.points = null;
     }
 
-    public Quest(int id, int version, String title, int userId, @NotNull List<Point> points) {
+    public Quest(int id, int version, String title, String description, int userId, @NotNull List<Point> points) {
         this.id = id;
         this.version = version;
         this.title = title;
+        this.description = description;
         this.userId = userId;
         this.points = points;
     }
@@ -74,5 +77,13 @@ public class Quest {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
