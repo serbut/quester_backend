@@ -9,9 +9,7 @@ import java.util.List;
 /**
  * Created by sergeybutorin on 02/11/2017.
  */
-public class Quest {
-    private int id;
-    private int version;
+public class Quest extends QuestBase {
     private String title;
     private String description;
     private int userId;
@@ -22,8 +20,7 @@ public class Quest {
     }
 
     public Quest(int id, int version, String title, String description, int userId) {
-        this.id = id;
-        this.version = version;
+        super(id, version);
         this.title = title;
         this.description = description;
         this.userId = userId;
@@ -31,20 +28,11 @@ public class Quest {
     }
 
     public Quest(int id, int version, String title, String description, int userId, @NotNull List<Point> points) {
-        this.id = id;
-        this.version = version;
+        super(id, version);
         this.title = title;
         this.description = description;
         this.userId = userId;
         this.points = points;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -69,14 +57,6 @@ public class Quest {
 
     public void setPoints(@Nullable List<Point> points) {
         this.points = points;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     public String getDescription() {

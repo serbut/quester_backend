@@ -51,7 +51,7 @@ public class QuestController {
         return ResponseEntity.ok(newQuest);
     }
 
-    @RequestMapping(path = "/get_all", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    @RequestMapping(path = "/get_all", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity getQuestsList() {
         final List<QuestBase> quests = questService.getQuests();
         return ResponseEntity.ok(quests);
