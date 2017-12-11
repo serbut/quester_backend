@@ -6,6 +6,8 @@ import com.quester.model.QuestBase;
 import com.quester.model.UserProfile;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.util.UUID;
+
 /**
  * Created by sergeybutorin on 02/11/2017.
  */
@@ -27,24 +29,24 @@ public class Mappers {
     };
 
     static final RowMapper<Quest> QUEST_ROW_MAPPER = (rs, rowNum) -> {
-        final int id = rs.getInt("id");
+        final UUID uuid = (UUID) rs.getObject("uuid");
         final int version = rs.getInt("version");
         final String title = rs.getString("title");
         final String description = rs.getString("description");
         final int userId = rs.getInt("user_id");
-        return new Quest(id, version, title, description, userId);
+        return new Quest(uuid, version, title, description, userId);
     };
 
     static final RowMapper<QuestBase> QUESTS_LIST_ROW_MAPPER = (rs, rowNum) -> {
-        final int id = rs.getInt("id");
+        final UUID uuid = (UUID) rs.getObject("uuid");
         final int version = rs.getInt("version");
-        return new QuestBase(id, version);
+        return new QuestBase(uuid, version);
     };
 
     static final RowMapper<Point> POINT_ROW_MAPPER = (rs, rowNum) -> {
-        final int id = rs.getInt("id");
+        final UUID uuid = (UUID) rs.getObject("uuid");
         final double x = rs.getDouble("x");
         final double y = rs.getDouble("y");
-        return new Point(id, x, y);
+        return new Point(uuid, x, y);
     };
 }

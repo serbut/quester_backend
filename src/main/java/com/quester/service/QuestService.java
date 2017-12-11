@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.UUID;
 
 import static com.quester.service.Mappers.*;
 
@@ -32,23 +33,23 @@ public class QuestService {
         this.template = template;
     }
 
-    public @Nullable Quest addQuest(@NotNull String title, @NotNull String description,
+    public @Nullable Quest addQuest(@NotNull UUID uuid, @NotNull String title, @NotNull String description,
                                     @NotNull String userToken, @NotNull List<Point> points) {
-        final String queryPoint = "INSERT INTO point (id, quest_id, x, \"y\") VALUES (?, ?, ?, ?)";
-        final int questId;
+        final String queryPoint = "INSERT INTO point (id, uuid, quest_id, x, \"y\") VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = template.getDataSource().getConnection();
              PreparedStatement pst = conn.prepareStatement(queryPoint, Statement.NO_GENERATED_KEYS)) {
-            final String queryQuest = "INSERT INTO quest (user_id, title, description) VALUES (" +
+            final String queryQuest = "INSERT INTO quest (uuid, user_id, title, description) VALUES (?, " +
                     "(SELECT id FROM users WHERE token = ?), ?, ?) RETURNING id";
-            questId = template.queryForObject(queryQuest, ID_MAPPER, userToken, title, description);
+            final int questId = template.queryForObject(queryQuest, ID_MAPPER, uuid, userToken, title, description);
             for (Point p : points) {
                 p.setId(template.queryForObject("SELECT nextval(pg_get_serial_sequence('point', 'id'))", NEXT_ID_MAPPER));
 
                 pst.setInt(1, p.getId());
-                pst.setInt(2, questId);
-                pst.setDouble(3, p.getLatitude());
-                pst.setDouble(4, p.getLongitude());
+                pst.setObject(2, p.getUuid());
+                pst.setInt(3, questId);
+                pst.setDouble(4, p.getLatitude());
+                pst.setDouble(5, p.getLongitude());
                 pst.addBatch();
                 LOGGER.info("Point with id {} in ({}; {}) created", p.getId(), p.getLatitude(), p.getLongitude());
             }
@@ -58,16 +59,16 @@ public class QuestService {
             LOGGER.info(e.getLocalizedMessage());
             return null;
         }
-        return getQuestById(questId);
+        return getQuestByUuid(uuid);
     }
 
-    public @Nullable Quest getQuestById(int id) {
+    public @Nullable Quest getQuestByUuid(UUID uuid) {
         try {
-            final Quest quest = template.queryForObject("SELECT * FROM quest WHERE id = ?", QUEST_ROW_MAPPER, id);
-            quest.setPoints(getPoints(quest.getId()));
+            final Quest quest = template.queryForObject("SELECT * FROM quest WHERE uuid = ?", QUEST_ROW_MAPPER, uuid);
+            quest.setPoints(getPoints(quest.getUuid()));
             return quest;
         } catch (EmptyResultDataAccessException e) {
-            LOGGER.info("Quest with id = {} not found.", id);
+            LOGGER.info("Quest with id = {} not found.", uuid);
             return null;
         } catch (DataAccessException e) {
             LOGGER.info(e.getLocalizedMessage());
@@ -87,7 +88,8 @@ public class QuestService {
         }
     }
 
-    private @NotNull List<Point> getPoints(int questId) {
-        return template.query("SELECT * FROM point WHERE quest_id = ?", POINT_ROW_MAPPER, questId);
+    private @NotNull List<Point> getPoints(UUID questId) {
+        return template.query("SELECT * FROM point WHERE quest_id = (SELECT id FROM quest WHERE uuid = ?)",
+                POINT_ROW_MAPPER, questId);
     }
 }

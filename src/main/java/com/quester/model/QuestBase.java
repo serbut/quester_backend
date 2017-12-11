@@ -1,27 +1,29 @@
 package com.quester.model;
 
+import java.util.UUID;
+
 /**
  * Created by sergeybutorin on 27/11/2017.
  */
 public class QuestBase {
-    private int id;
+    private UUID uuid;
     private int version;
 
     @SuppressWarnings("unused")
     public QuestBase() {
     }
 
-    public QuestBase(int id, int version) {
-        this.id = id;
+    public QuestBase(UUID uuid, int version) {
+        this.uuid = uuid;
         this.version = version;
     }
 
-    public int getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public int getVersion() {

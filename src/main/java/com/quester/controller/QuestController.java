@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by sergeybutorin on 02/11/2017.
@@ -33,21 +34,23 @@ public class QuestController {
     @RequestMapping(path = "/new", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     public ResponseEntity addQuest(@RequestHeader("User-Token") String userToken,
                                  @RequestBody Quest body) {
+        final UUID uuid = body.getUuid();
         final String title = body.getTitle();
         final String description = body.getDescription();
         final List<Point> points = body.getPoints();
 
-        if (StringUtils.isEmpty(title)
+        if (StringUtils.isEmpty(uuid)
+                || StringUtils.isEmpty(title)
                 || StringUtils.isEmpty(userToken)
                 || StringUtils.isEmpty(points)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.WRONG_PARAMETERS);
         }
 
-        final Quest newQuest = questService.addQuest(title, description, userToken, points);
+        final Quest newQuest = questService.addQuest(uuid, title, description, userToken, points);
         if (newQuest == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ErrorResponse.QUEST_CREATION_ERROR)); // TODO: too broad
         }
-        LOGGER.info("Quest with id = {} and title = {} added", newQuest.getId(), newQuest.getTitle());
+        LOGGER.info("Quest with id = {} and title = {} added", newQuest.getUuid(), newQuest.getTitle());
         return ResponseEntity.ok(newQuest);
     }
 
@@ -57,9 +60,9 @@ public class QuestController {
         return ResponseEntity.ok(quests);
     }
 
-    @RequestMapping(path = "/{id}/details", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity getQuestDetails(@PathVariable(value="id") int questId) {
-        final Quest quest = questService.getQuestById(questId);
+    @RequestMapping(path = "/{uuid}/details", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity getQuestDetails(@PathVariable(value="uuid") UUID questUuid) {
+        final Quest quest = questService.getQuestByUuid(questUuid);
 
         if (quest == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ErrorResponse.QUEST_NOT_FOUND));

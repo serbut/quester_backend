@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by sergeybutorin on 02/11/2017.
@@ -19,16 +20,16 @@ public class Quest extends QuestBase {
     private Quest() {
     }
 
-    public Quest(int id, int version, String title, String description, int userId) {
-        super(id, version);
+    public Quest(UUID uuid, int version, String title, String description, int userId) {
+        super(uuid, version);
         this.title = title;
         this.description = description;
         this.userId = userId;
         this.points = null;
     }
 
-    public Quest(int id, int version, String title, String description, int userId, @NotNull List<Point> points) {
-        super(id, version);
+    public Quest(UUID uuid, int version, String title, String description, int userId, @NotNull List<Point> points) {
+        super(uuid, version);
         this.title = title;
         this.description = description;
         this.userId = userId;

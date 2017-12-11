@@ -1,10 +1,13 @@
 package com.quester.model;
 
+import java.util.UUID;
+
 /**
  * Created by sergeybutorin on 02/11/2017.
  */
 public class Point {
     private int id;
+    private UUID uuid;
     private double latitude;
     private double longitude;
 
@@ -12,18 +15,25 @@ public class Point {
     private Point() {
     }
 
-    public Point(int id, double latitude, double longitude) {
+    public Point(int id, UUID uuid, double latitude, double longitude) {
         this.id = id;
+        this.uuid = uuid;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public int getId() {
-        return id;
+    public Point(UUID uuid, double latitude, double longitude) {
+        this.uuid = uuid;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public double getLatitude() {
@@ -40,5 +50,13 @@ public class Point {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
