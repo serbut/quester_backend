@@ -78,7 +78,7 @@ public class QuestService {
 
     public @Nullable List<QuestBase> getQuests() {
         try {
-            return template.query("SELECT id, version FROM quest", QUESTS_LIST_ROW_MAPPER);
+            return template.query("SELECT uuid, version FROM quest", QUESTS_LIST_ROW_MAPPER);
         } catch (EmptyResultDataAccessException e) {
             LOGGER.info("Quests not found.");
             return null;
