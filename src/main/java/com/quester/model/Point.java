@@ -8,8 +8,7 @@ import java.util.UUID;
 public class Point {
     private int id;
     private UUID uuid;
-    private double latitude;
-    private double longitude;
+    private LatLng coordinates;
 
     @SuppressWarnings("unused")
     private Point() {
@@ -18,14 +17,12 @@ public class Point {
     public Point(int id, UUID uuid, double latitude, double longitude) {
         this.id = id;
         this.uuid = uuid;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.coordinates = new LatLng(latitude, longitude);
     }
 
     public Point(UUID uuid, double latitude, double longitude) {
         this.uuid = uuid;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.coordinates = new LatLng(latitude, longitude);
     }
 
     public UUID getUuid() {
@@ -36,27 +33,19 @@ public class Point {
         this.uuid = uuid;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public LatLng getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(LatLng coordinates) {
+        this.coordinates = coordinates;
     }
 }

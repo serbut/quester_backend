@@ -48,10 +48,12 @@ public class QuestService {
                 pst.setInt(1, p.getId());
                 pst.setObject(2, p.getUuid());
                 pst.setInt(3, questId);
-                pst.setDouble(4, p.getLatitude());
-                pst.setDouble(5, p.getLongitude());
+                pst.setDouble(4, p.getCoordinates().getLatitude());
+                pst.setDouble(5, p.getCoordinates().getLongitude());
                 pst.addBatch();
-                LOGGER.info("Point with id {} in ({}; {}) created", p.getId(), p.getLatitude(), p.getLongitude());
+                LOGGER.info("Point with id {} in ({}; {}) created", p.getId(),
+                        p.getCoordinates().getLatitude(),
+                        p.getCoordinates().getLongitude());
             }
 
             pst.executeBatch();
