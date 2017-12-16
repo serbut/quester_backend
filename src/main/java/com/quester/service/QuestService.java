@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,8 @@ public class QuestService {
             }
 
             pst.executeBatch();
+        } catch (DuplicateKeyException e) {
+            return getQuestByUuid(uuid);
         } catch (DataAccessException | SQLException e) {
             LOGGER.info(e.getLocalizedMessage());
             return null;
