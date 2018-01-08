@@ -7,26 +7,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class UserProfile {
     private long id;
-    @JsonProperty("email")
     private String email;
-    @JsonProperty("password")
     private String password;
-    private int rating;
+    @JsonProperty("firstname")
+    private String firstName;
+    @JsonProperty("lastname")
+    private String lastName;
 
     @SuppressWarnings("unused")
     private UserProfile() {
     }
 
-    public UserProfile(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public UserProfile(int id, String email, String password, int rating) {
+    public UserProfile(int id, String email, String password, String firstName, String lastName) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.rating = rating;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @SuppressWarnings("unused")
@@ -43,12 +40,6 @@ public class UserProfile {
     public String getEmail() {
         return email;
     }
-
-    @SuppressWarnings("unused")
-    public int getRating() {
-        return rating;
-    }
-
     @SuppressWarnings("unused")
     public void setEmail(String email) {
         this.email = email;
@@ -57,5 +48,21 @@ public class UserProfile {
     @SuppressWarnings("unused")
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
